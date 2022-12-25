@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     particles.setup();
+    fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
 }
 
 //--------------------------------------------------------------
@@ -12,8 +13,12 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    fbo.begin();
     particles.draw();
+    fbo.end();
     ofSetColor(255);
+    fbo.draw(0, 0, ofGetWidth(), ofGetHeight());
+   
     ofDrawBitmapString(ofToString( ofGetFrameRate() ), 10,15);
     ofDrawBitmapString(ofToString( particles.particles.size() ), 10,30);
 }

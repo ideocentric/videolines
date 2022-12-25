@@ -11,7 +11,7 @@
 void videoParticles::setup() {
     ofBackground(0, 0, 0);
     webcam.setup(320, 180);
-    webcam.setDesiredFrameRate(30);
+    webcam.setDesiredFrameRate(5);
     width = webcam.getWidth();
     height = webcam.getHeight();
 }
@@ -20,18 +20,24 @@ void videoParticles::setup() {
 void videoParticles::update() {
     webcam.update();
     if(webcam.isFrameNew()) {
-        for(int i=0; i<particles.size(); i++) {
-            particles[i].update();
+        for(vector<lineParticle>::iterator it = particles.begin(); it != particles.end(); ++it) {
+            if( (*it).dead ) {
+                it = particles.erase(it);
+            }
+            (*it).update();
         }
     }
 }
 
 void videoParticles::draw() {
-    int grid = 16;
-    float m = ofGetScreenWidth()/width;
+
+    float fw = ofGetWidth();
+    float m = fw/width;
+    ofBackground(0, 0, 0);
+    //webcam.draw(0, 0, ofGetWidth(), ofGetHeight());
     for(int x=0; x<width; x++) {
         for(int y=0; y<height; y++) {
-            if(ofRandom(0.0, 1.0) >= 0.998) {
+            if(ofRandom(0.0, 1.0) >= 0.999) {
                 ofColor color = webcam.getPixels().getColor(x, y);
                 int brightness = color.getBrightness();
                 float size = ofMap(brightness, 0, 255, 5, 100);
@@ -42,8 +48,5 @@ void videoParticles::draw() {
     }
     for(vector<lineParticle>::iterator it = particles.begin(); it != particles.end(); ++it) {
         (*it).draw();
-        if( (*it).dead ) {
-            it = particles.erase(it);
-        }
     }
 }

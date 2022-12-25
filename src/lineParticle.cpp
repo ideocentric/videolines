@@ -15,7 +15,7 @@ lineParticle::lineParticle(int x, int y, ofColor c) {
     growth = size/60*2;
     decay = size/60/5;
     length = 1;
-    width = ofRandom(0.5, 2.0);
+    width = ofRandom(0.5, 4.0);
     color.setHsb(c.getHue(), c.getSaturation(), c.getBrightness(), PARTICLE_ALPHA);
     dead = false;
     growing = true;
@@ -31,7 +31,7 @@ lineParticle::lineParticle(int x, int y, ofColor c, float s) {
     growth = size/60*2;
     decay = size/60/5;
     length = 1;
-    width = ofRandom(0.5, 2.0);
+    width = ofRandom(0.5, 8.0);
     color.setHsb(c.getHue(), c.getSaturation(), c.getBrightness(), PARTICLE_ALPHA);
     dead = false;
     growing = true;
@@ -66,7 +66,7 @@ void lineParticle::update() {
     
     float brightness = color.getBrightness();
     if(brightness > 1) {
-        color.setBrightness(brightness -= 0.5);
+        color.setBrightness(brightness -= 1.1); // (-0.5 -> -1.2)
     }
     else {
         color.setBrightness(0);
